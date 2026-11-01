@@ -21,7 +21,7 @@ from urllib.request import (HTTPDigestAuthHandler, HTTPPasswordMgrWithDefaultRea
                             HTTPRedirectHandler, Request, build_opener)
 from urllib.error import HTTPError
 
-VERSION = '1.1.2'
+VERSION = '1.1.3'
 ACTIONS = {'left':(-.35,0,0), 'right':(.35,0,0), 'up':(0,.35,0),
            'down':(0,-.35,0), 'zoom_in':(0,0,.35), 'zoom_out':(0,0,-.35)}
 PTZ_NS = 'http://www.onvif.org/ver20/ptz/wsdl'

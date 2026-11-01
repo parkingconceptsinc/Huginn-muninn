@@ -4,7 +4,10 @@ import {VERSION} from '../dist/core.mjs';
 const pkg=JSON.parse(await readFile(new URL('../package.json',import.meta.url),'utf8'));
 if(pkg.version!==VERSION)throw new Error('La versión de package.json y de la PWA deben coincidir.');
 await rm('_site',{recursive:true,force:true});await mkdir('_site',{recursive:true});
-await cp('dist','_site',{recursive:true});
+// Keep the same public /dist/ app URL for branch Pages and Actions builds.
+// This prevents the README from becoming the site's home page in branch mode.
+await cp('dist','_site/dist',{recursive:true});
+await cp('index.html','_site/index.html');
 await writeFile('_site/.nojekyll','');
 const shell=await readFile('dist/sw.js','utf8');if(!shell.includes(`huginn-muninn-shell-${VERSION}`))throw new Error('Incrementa también la versión de la caché.');
 const hash=createHash('sha256').update(await readFile('dist/app.mjs')).digest('hex');

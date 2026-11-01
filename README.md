@@ -2,7 +2,7 @@
 
 App propia y gratuita para ver y controlar cámaras compatibles desde teléfono y escritorio. Blue Iris es únicamente una referencia de organización visual y funcional. **No necesitas Blue Iris, su licencia, su cuenta ni un servidor Blue Iris.**
 
-## Qué incluye la versión 1.1.2
+## Qué incluye la versión 1.1.3
 
 - PWA instalable en Android, iPhone y escritorio, con tema claro/oscuro.
 - Mosaico y vista ampliada; hasta 12 cámaras guardadas y 4 conexiones simultáneas (2 en teléfono).
@@ -112,16 +112,22 @@ La versión de escritorio es la misma aplicación en ventana independiente. No e
 
 `main` es producción; `dev` ejecuta pruebas sin publicar producción. El almacenamiento se separa por origen y ruta de la aplicación, para aislar publicaciones DEV y PROD. No mezcles credenciales ni cámaras entre entornos. Para desarrollo, autoriza un origen localhost concreto en un puente DEV independiente.
 
-En **Settings → Pages → Build and deployment**, selecciona **GitHub Actions** si el repositorio aún no tiene Pages activo. El flujo incluido valida y construye la PWA antes de publicar. El puente Python se ejecuta en tu equipo; GitHub Actions no aloja servicios de video permanentes.
+El enlace principal abre la app en `/Huginn-muninn/dist/`. Se admiten dos configuraciones de **Settings → Pages → Build and deployment**: **Deploy from a branch → main → /(root)** y **GitHub Actions**. Ambas usan la misma entrada y la misma ruta de instalación; no muestran el README como página inicial. El flujo incluido valida y construye la PWA antes de publicar. El puente Python se ejecuta en tu equipo; GitHub Actions no aloja servicios de video permanentes.
 
 ```bash
 npm test
 npm run build
 ```
 
-Node 20+ y Python 3.10+ bastan; no requiere `npm install`. HLS.js 1.6.19 y los iconos ya están incluidos. El sitio listo para publicar se genera en `_site/`. Las rutas relativas permiten alojarlo bajo `/Huginn-muninn/`.
+Node 20+ y Python 3.10+ bastan; no requiere `npm install`. HLS.js 1.6.19 y los iconos ya están incluidos. El sitio listo para publicar se genera en `_site/`. Las rutas relativas permiten alojarlo bajo `/Huginn-muninn/dist/`. El archivo `index.html` de la raíz abre esa dirección tanto en el repositorio como en el paquete generado.
 
 Los archivos reales `bridge/config.json`, `bridge/go2rtc.yaml`, variables de entorno y capturas privadas están excluidos del repositorio. La caché de la PWA solo guarda una lista explícita de archivos de interfaz y nunca peticiones autenticadas, frames, video o datos del puente.
+
+## Cambios de 1.1.3
+
+- Publicación compatible con la configuración Pages por rama: la página principal abre la PWA en vez del README.
+- La compilación de Actions conserva la misma ruta de aplicación e instalación.
+- Prueba de integración que verifica la entrada, los módulos, el reproductor HLS y los iconos del sitio generado.
 
 ## Cambios de 1.1.2
 

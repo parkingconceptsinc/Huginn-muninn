@@ -1,4 +1,4 @@
-const CACHE = 'huginn-muninn-shell-1.1.2';
+const CACHE = 'huginn-muninn-shell-1.1.3';
 const ROOT = new URL('./', self.location.href);
 const FILES = ['','index.html','app.css','app.mjs','core.mjs','storage.mjs','player.mjs','manifest.webmanifest','icons/icon.svg','icons/icon-192.png','icons/icon-512.png','icons/maskable-512.png','vendor/hls.min.js'];
 const SHELL = new Set(FILES.map(path => new URL(path, ROOT).href));
