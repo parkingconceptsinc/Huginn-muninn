@@ -1,4 +1,4 @@
-export const VERSION = '1.1.1';
+export const VERSION = '1.1.2';
 export const MAX_CAMERAS = 12;
 export const TYPES = {bridge:'Puente gratuito · RTSP / ONVIF',hls:'HLS · enlace HTTPS',mjpeg:'MJPEG · enlace HTTPS',mp4:'Video MP4 · enlace HTTPS'};
 export const RETRY_DELAYS = [1000, 2000, 4000, 8000, 15000];

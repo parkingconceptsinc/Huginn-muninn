@@ -84,6 +84,17 @@ class BridgeTests(unittest.TestCase):
         code,_,body=self.request('/v1/cameras/entrada/capabilities')
         self.assertEqual(code,200);self.assertEqual(json.loads(body),{'ptz':True})
         self.assertEqual(json.loads(self.request('/v1/cameras/patio/capabilities')[2]),{'ptz':False})
+    def test_first_probe_is_not_skipped_on_a_newly_booted_host(self):
+        with patch.dict(os.environ,{'CAMERA_ONVIF_USER':'viewer','CAMERA_ONVIF_PASSWORD':'PRIVATE_PASSWORD'}):
+            controller=bridge.ONVIF(self.config['cameras']['entrada']['onvif'])
+        with patch.object(bridge.time,'monotonic',return_value=1), patch.object(controller,'call') as call:
+            self.assertTrue(controller.available())
+            call.assert_called_once_with('GetStatus','')
+            controller.available()
+            call.assert_called_once()
+        self.server.catalog_time=None
+        with patch.object(bridge.time,'monotonic',return_value=1):
+            self.assertEqual(len(self.server.catalog()),2)
     def test_onvif_move_uses_device_timeout_and_explicit_stop(self):
         code,_,_=self.request('/v1/cameras/entrada/ptz',method='POST',data={'action':'left'})
         self.assertEqual(code,200)

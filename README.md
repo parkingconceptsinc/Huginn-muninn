@@ -2,7 +2,7 @@
 
 App propia y gratuita para ver y controlar cámaras compatibles desde teléfono y escritorio. Blue Iris es únicamente una referencia de organización visual y funcional. **No necesitas Blue Iris, su licencia, su cuenta ni un servidor Blue Iris.**
 
-## Qué incluye la versión 1.1.1
+## Qué incluye la versión 1.1.2
 
 - PWA instalable en Android, iPhone y escritorio, con tema claro/oscuro.
 - Mosaico y vista ampliada; hasta 12 cámaras guardadas y 4 conexiones simultáneas (2 en teléfono).
@@ -122,6 +122,10 @@ npm run build
 Node 20+ y Python 3.10+ bastan; no requiere `npm install`. HLS.js 1.6.19 y los iconos ya están incluidos. El sitio listo para publicar se genera en `_site/`. Las rutas relativas permiten alojarlo bajo `/Huginn-muninn/`.
 
 Los archivos reales `bridge/config.json`, `bridge/go2rtc.yaml`, variables de entorno y capturas privadas están excluidos del repositorio. La caché de la PWA solo guarda una lista explícita de archivos de interfaz y nunca peticiones autenticadas, frames, video o datos del puente.
+
+## Cambios de 1.1.2
+
+- La primera comprobación de ONVIF y del catálogo se ejecuta también en equipos recién arrancados, sin confundir el tiempo de arranque con un resultado almacenado.
 
 ## Cambios de 1.1.1
 

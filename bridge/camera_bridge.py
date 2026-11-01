@@ -21,7 +21,7 @@ from urllib.request import (HTTPDigestAuthHandler, HTTPPasswordMgrWithDefaultRea
                             HTTPRedirectHandler, Request, build_opener)
 from urllib.error import HTTPError
 
-VERSION = '1.1.1'
+VERSION = '1.1.2'
 ACTIONS = {'left':(-.35,0,0), 'right':(.35,0,0), 'up':(0,.35,0),
            'down':(0,-.35,0), 'zoom_in':(0,0,.35), 'zoom_out':(0,0,-.35)}
 PTZ_NS = 'http://www.onvif.org/ver20/ptz/wsdl'
@@ -81,7 +81,7 @@ class ONVIF:
         if not self.user or not self.password: raise ValueError('Faltan las variables de credenciales ONVIF.')
         manager=HTTPPasswordMgrWithDefaultRealm();manager.add_password(None,self.url,self.user,self.password)
         self.opener=build_opener(NoRedirect(),HTTPDigestAuthHandler(manager))
-        self.lock=threading.Lock();self.verified_at=0;self.verified=False
+        self.lock=threading.Lock();self.verified_at=None;self.verified=False
     def envelope(self, body):
         nonce=os.urandom(20)
         created=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -103,7 +103,7 @@ class ONVIF:
         if root.find(expected) is None: raise BridgeError('La cámara no confirmó el comando ONVIF.')
         return root
     def available(self):
-        if time.monotonic()-self.verified_at<30: return self.verified
+        if self.verified_at is not None and time.monotonic()-self.verified_at<30: return self.verified
         with self.lock:
             try: self.call('GetStatus','');self.verified=True
             except (OSError,ValueError,BridgeError): self.verified=False
@@ -145,11 +145,11 @@ class BridgeServer(ThreadingHTTPServer):
             if not re.fullmatch(r'[A-Za-z0-9_-]{1,64}',ident) or not isinstance(c,dict) or not re.fullmatch(r'[A-Za-z0-9_-]{1,64}',c.get('stream','')) or c.get('transport','webrtc') not in ('webrtc','mjpeg'): raise ValueError('Configuración de cámara inválida.')
             if c.get('onvif'): self.controllers[ident]=ONVIF(c['onvif'])
         self.stream_slots=threading.BoundedSemaphore(4)
-        self.catalog_lock=threading.Lock();self.catalog_time=0;self.catalog_cache=[]
+        self.catalog_lock=threading.Lock();self.catalog_time=None;self.catalog_cache=[]
         super().__init__(address,Handler)
     def catalog(self):
         with self.catalog_lock:
-            if time.monotonic()-self.catalog_time<3: return self.catalog_cache
+            if self.catalog_time is not None and time.monotonic()-self.catalog_time<3: return self.catalog_cache
             sources=self.client.streams();result=[]
             for ident,c in self.cameras.items():
                 if c['stream'] not in sources: continue
