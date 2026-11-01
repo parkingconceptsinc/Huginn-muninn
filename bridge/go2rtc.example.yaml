@@ -1,0 +1,15 @@
+# Copy to go2rtc.yaml on the local bridge PC. Never commit the real file.
+api:
+  listen: "127.0.0.1:1984"
+  allow_paths: [/api/streams, /api/webrtc, /api/stream.mjpeg, /api/frame.jpeg]
+rtsp:
+  listen: "127.0.0.1:8554"
+webrtc:
+  listen: ":8555"
+  # Set reachable LAN/VPN IPs, not the HTTPS reverse-proxy hostname.
+  candidates:
+    - 192.168.1.20:8555
+    # - 100.70.0.20:8555  # Example Tailscale IP; replace with your actual IP.
+streams:
+  entrada: "rtsp://CAMERA_USER:CAMERA_PASSWORD@192.168.1.50:554/REPLACE_WITH_REAL_PATH"
+  patio: "rtsp://CAMERA_USER:CAMERA_PASSWORD@192.168.1.51:554/REPLACE_WITH_REAL_PATH"

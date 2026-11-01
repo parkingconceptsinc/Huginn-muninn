@@ -1,0 +1,10 @@
+{
+  "name": "huginn-muninn-camera-control",
+  "version": "1.1.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs && python3 -m unittest discover -s tests -p 'test_*.py'",
+    "build": "node scripts/build.mjs"
+  }
+}

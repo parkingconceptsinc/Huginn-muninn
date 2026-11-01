@@ -1,0 +1,9 @@
+node_modules/
+_site/
+__pycache__/
+*.pyc
+bridge/config.json
+bridge/go2rtc.yaml
+.env*
+*.log
+.openai/

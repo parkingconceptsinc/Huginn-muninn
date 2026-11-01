@@ -1,0 +1,8 @@
+{
+  "go2rtc_url": "http://127.0.0.1:1984",
+  "allowed_origins": ["https://parkingconceptsinc.github.io"],
+  "cameras": {
+    "entrada": {"name":"Entrada", "stream":"entrada", "transport":"webrtc"},
+    "patio": {"name":"Patio", "stream":"patio", "transport":"webrtc"}
+  }
+}
